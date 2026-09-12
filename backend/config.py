@@ -22,11 +22,11 @@ ALLOWED_ORIGINS = [
 env_origins = os.getenv("ALLOWED_ORIGINS", "")
 if env_origins:
     for origin in env_origins.split(","):
-        clean_origin = origin.strip()
+        clean_origin = origin.strip().rstrip("/")
         if clean_origin and clean_origin not in ALLOWED_ORIGINS:
             ALLOWED_ORIGINS.append(clean_origin)
 
-deployed_frontend = os.getenv("FRONTEND_URL", "").strip()
+deployed_frontend = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
 if deployed_frontend and deployed_frontend not in ALLOWED_ORIGINS:
     ALLOWED_ORIGINS.append(deployed_frontend)
 

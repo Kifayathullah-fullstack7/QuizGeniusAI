@@ -1,6 +1,6 @@
 import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -50,12 +50,12 @@ app.include_router(study.router)
 app.include_router(materials.router)
 
 @app.get("/", tags=["System"])
-async def root():
+async def root(request: Request):
+    base = str(request.base_url).rstrip("/")
     return {
         "message": "Role-Based Academic & QuizGenius AI API is operational.",
-        "docs_url": "http://localhost:8000/docs",
-        "health_url": "http://localhost:8000/health",
-        "frontend_url": "http://localhost:3000",
+        "docs_url": f"{base}/docs",
+        "health_url": f"{base}/health",
         "routes": {
             "auth": "/auth/login, /auth/refresh, /auth/logout, /auth/me",
             "admin": "/admin/stats, /admin/users, /admin/audit-logs, /admin/config",

@@ -1,0 +1,261 @@
+[
+  {
+    "id": "react-state-01",
+    "type": "MCQ",
+    "difficulty": 2,
+    "prompt": "What is logged to the console immediately after the button is clicked once?",
+    "code_snippet": "function Counter() {\n  const [count, setCount] = useState(0);\n  const handleClick = () => {\n    setCount(count + 1);\n    console.log(count);\n  };\n  return <button onClick={handleClick}>+{count}</button>;\n}",
+    "concept_tag": "React State & Batched Updates",
+    "cognitive_trap_name": "Synchronous State Fallacy",
+    "cognitive_trap_detail": "Assuming state setter functions mutate or update state variables synchronously in place, expecting immediate reflection on the subsequent line.",
+    "hint": "React state setters schedule an update rather than mutating the current closure variable.",
+    "options": [
+      {
+        "id": "A",
+        "text": "1",
+        "is_correct": false,
+        "trap_explanation": "You assumed `setCount` instantly mutated `count` before the `console.log` call ran."
+      },
+      {
+        "id": "B",
+        "text": "0",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "C",
+        "text": "undefined",
+        "is_correct": false,
+        "trap_explanation": "You assumed `setCount` unmounted or invalidated the local variable before re-render."
+      },
+      {
+        "id": "D",
+        "text": "NaN",
+        "is_correct": false,
+        "trap_explanation": "You suspected an invalid numeric operation occurred inside the updater closure."
+      }
+    ]
+  },
+  {
+    "id": "react-stale-closure-02",
+    "type": "MCQ",
+    "difficulty": 3,
+    "prompt": "In the following hook, what count value is logged every second if the user clicks increment 3 times during the first 2 seconds?",
+    "code_snippet": "function Timer() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    const id = setInterval(() => {\n      console.log(count);\n    }, 1000);\n    return () => clearInterval(id);\n  }, []); // empty dependency array\n  return <button onClick={() => setCount(c => c + 1)}>Add</button>;\n}",
+    "concept_tag": "React Hooks & Closures",
+    "cognitive_trap_name": "Living Closure Assumption",
+    "cognitive_trap_detail": "Assuming callbacks captured inside an effect automatically track outer reactive values across future re-renders without dependency declaration.",
+    "hint": "Examine what values were enclosed when the setInterval callback was first instantiated.",
+    "options": [
+      {
+        "id": "A",
+        "text": "It logs 0 on every tick indefinitely.",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "B",
+        "text": "It logs the updated count (1, 2, 3) because state is global to the component.",
+        "is_correct": false,
+        "trap_explanation": "You assumed JavaScript closures dynamically re-bind variables when components re-render."
+      },
+      {
+        "id": "C",
+        "text": "It throws a ReferenceError because the component re-rendered.",
+        "is_correct": false,
+        "trap_explanation": "You assumed the interval loses its closure scope when re-renders happen."
+      },
+      {
+        "id": "D",
+        "text": "It logs 3 once the interval restarts.",
+        "is_correct": false,
+        "trap_explanation": "With an empty dependency array `[]`, the effect never re-runs so the interval is never restarted."
+      }
+    ]
+  },
+  {
+    "id": "js-event-loop-03",
+    "type": "MCQ",
+    "difficulty": 3,
+    "prompt": "What is the exact execution order printed by this JavaScript code?",
+    "code_snippet": "console.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');",
+    "concept_tag": "JavaScript Event Loop",
+    "cognitive_trap_name": "Timer Priority Bias",
+    "cognitive_trap_detail": "Assuming `setTimeout(..., 0)` runs before microtasks or executes immediately because its timeout delay is zero milliseconds.",
+    "hint": "Microtasks (Promise reactions) are drained before the next macrotask (timer) turn.",
+    "options": [
+      {
+        "id": "A",
+        "text": "1, 2, 3, 4",
+        "is_correct": false,
+        "trap_explanation": "You treated 0ms timer as executing synchronously before remaining synchronous code."
+      },
+      {
+        "id": "B",
+        "text": "1, 4, 2, 3",
+        "is_correct": false,
+        "trap_explanation": "You assumed timer macrotasks are processed before the microtask promise queue."
+      },
+      {
+        "id": "C",
+        "text": "1, 4, 3, 2",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "D",
+        "text": "3, 1, 4, 2",
+        "is_correct": false,
+        "trap_explanation": "You assumed Promises preempt already-running synchronous call stack execution."
+      }
+    ]
+  },
+  {
+    "id": "python-gil-04",
+    "type": "MCQ",
+    "difficulty": 4,
+    "prompt": "Why doesn't spawning 8 `threading.Thread` workers accelerate a CPU-bound matrix multiplication on an 8-core CPU in CPython?",
+    "code_snippet": "from threading import Thread\n\ndef heavy_cpu_math():\n    total = sum(i * i for i in range(10_000_000))\n\nthreads = [Thread(target=heavy_cpu_math) for _ in range(8)]\nfor t in threads: t.start()\nfor t in threads: t.join()",
+    "concept_tag": "Python Concurrency & GIL",
+    "cognitive_trap_name": "Hardware Parallelism Illusion",
+    "cognitive_trap_detail": "Conflating operating system threads with parallel CPU bytecode execution, forgetting CPython's Global Interpreter Lock (GIL) serializes bytecode execution.",
+    "hint": "CPython enforces a mutex lock preventing multiple native threads from executing Python bytecodes at the same time.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Python threads cannot utilize multi-core systems because the OS scheduler limits them to Core 0.",
+        "is_correct": false,
+        "trap_explanation": "The OS scheduler can migrate threads across cores, but the GIL prevents simultaneous execution."
+      },
+      {
+        "id": "B",
+        "text": "The Global Interpreter Lock (GIL) serializes bytecode execution to a single core, adding context-switching overhead.",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "C",
+        "text": "Integer multiplication in Python triggers automatic garbage collection pauses that halt other threads.",
+        "is_correct": false,
+        "trap_explanation": "You attributed CPU bottlenecking to GC pauses rather than the thread execution lock."
+      },
+      {
+        "id": "D",
+        "text": "CPython threads are green/virtual threads (coroutines) that lack native OS kernel bindings.",
+        "is_correct": false,
+        "trap_explanation": "CPython threads are real native OS threads, but constrained by the GIL mutex."
+      }
+    ]
+  },
+  {
+    "id": "python-mutable-default-05",
+    "type": "MCQ",
+    "difficulty": 2,
+    "prompt": "What does the second function call output?",
+    "code_snippet": "def append_item(val, items=[]):\n    items.append(val)\n    return items\n\nappend_item(1)\nprint(append_item(2))",
+    "concept_tag": "Python Mutable Defaults",
+    "cognitive_trap_name": "Call-Time Instantiation Fallacy",
+    "cognitive_trap_detail": "Believing default argument expressions are evaluated fresh every time the function is called, rather than once at function definition time.",
+    "hint": "Default parameter objects are bound once when Python compiles the def statement.",
+    "options": [
+      {
+        "id": "A",
+        "text": "[2]",
+        "is_correct": false,
+        "trap_explanation": "You assumed `items=[]` allocated a brand new empty list on the second invocation."
+      },
+      {
+        "id": "B",
+        "text": "[1, 2]",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "C",
+        "text": "[[1], [2]]",
+        "is_correct": false,
+        "trap_explanation": "You imagined list appending creates nested element structures."
+      },
+      {
+        "id": "D",
+        "text": "TypeError: default parameter mutated",
+        "is_correct": false,
+        "trap_explanation": "Python does not forbid or raise exceptions when mutating default arguments."
+      }
+    ]
+  },
+  {
+    "id": "sysdesign-cache-stampede-06",
+    "type": "MCQ",
+    "difficulty": 4,
+    "prompt": "A Redis key caching an expensive SQL query expires simultaneously for 50,000 concurrent users. What specific failure mode occurs?",
+    "code_snippet": "async def get_leaderboard():\n    cached = await redis.get('leaderboard')\n    if not cached:\n        cached = await db.query('SELECT * FROM rankings ORDER BY score DESC')\n        await redis.setex('leaderboard', 300, cached)\n    return cached",
+    "concept_tag": "System Design & Caching",
+    "cognitive_trap_name": "Passive Expiry Fallacy",
+    "cognitive_trap_detail": "Assuming caching solves database load without considering the thundering herd / cache stampede when shared hot keys expire under concurrency.",
+    "hint": "Consider what happens when tens of thousands of requests observe a cache miss at the exact same millisecond.",
+    "options": [
+      {
+        "id": "A",
+        "text": "Cache Stampede (Thundering Herd): All concurrent requests miss and hammer the database directly, causing connection exhaustion.",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "B",
+        "text": "Cache Poisoning: Redis corrupts keys when multiple writers attempt atomic setex operations.",
+        "is_correct": false,
+        "trap_explanation": "Redis is single-threaded and handles atomic sets safely; the failure occurs downstream at the DB."
+      },
+      {
+        "id": "C",
+        "text": "Dirty Read Anomaly: Redis returns uncommitted transaction fragments from the database.",
+        "is_correct": false,
+        "trap_explanation": "Dirty reads are a transactional isolation issue, not a cache key expiration cascade."
+      },
+      {
+        "id": "D",
+        "text": "Memory Leak: Redis retains expired keys in RAM until an explicit flushall command is run.",
+        "is_correct": false,
+        "trap_explanation": "Redis evicts expired keys via passive and active TTL sweeps without memory leaks."
+      }
+    ]
+  },
+  {
+    "id": "js-equality-coercion-07",
+    "type": "MCQ",
+    "difficulty": 2,
+    "prompt": "What is the boolean evaluation of `[] == ![]` in JavaScript?",
+    "code_snippet": "console.log([] == ![]);",
+    "concept_tag": "JavaScript Type Coercion",
+    "cognitive_trap_name": "Symmetric Negation Assumption",
+    "cognitive_trap_detail": "Assuming that if an object evaluates truthy, comparing it against its negation must evaluate to false.",
+    "hint": "Look at what ![] evaluates to first, then follow abstract equality coercion rules.",
+    "options": [
+      {
+        "id": "A",
+        "text": "false",
+        "is_correct": false,
+        "trap_explanation": "You assumed an entity can never equal the negation of itself, skipping JavaScript's coercion pipeline."
+      },
+      {
+        "id": "B",
+        "text": "true",
+        "is_correct": true,
+        "trap_explanation": null
+      },
+      {
+        "id": "C",
+        "text": "TypeError",
+        "is_correct": false,
+        "trap_explanation": "JavaScript loose equality `==` attempts coercion rather than throwing type errors."
+      },
+      {
+        "id": "D",
+        "text": "undefined",
+        "is_correct": false,
+        "trap_explanation": "Comparison operators always return boolean true or false."
+      }
+    ]
+  }
+]

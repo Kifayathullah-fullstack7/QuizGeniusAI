@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors from QuizGenius AI design.md & Cosmic Neural Minimal */
+  --color-obsidian-void: #08090E;
+  --color-void: #000000;
+  --color-glass-panel: rgba(17, 19, 30, 0.75);
+  --color-hairline-border: rgba(255, 255, 255, 0.08);
+  --color-bone-white: #FFFFFF;
+  --color-ash-gray: #9A9AA6;
+  --color-silver-mist: #6B6B76;
+  --color-electric-violet: #8B5CF6;
+  --color-electric-iris: #8052ff;
+  --color-saffron-spark: #ffb829;
+  --color-sky-blue: #38BDF8;
+  --color-autopsy-pink: #F472B6;
+  --color-ingestion-cyan: #22D3EE;
+  --color-ready-green: #4ADE80;
+  --color-fallback-amber: #FBBF24;
+  --color-deep-verdant: #15846e;
+
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --text-micro-label: 12px;
+  --text-badge: 11px;
+  --text-body-description: 13px;
+  --text-input: 14px;
+  --text-card-title: 14px;
+  --text-button-label: 16px;
+  --text-headline: 36px;
+
+  /* Border Radius */
+  --radius-panel: 16px;
+  --radius-card: 12px;
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-pill: 9999px;
+}
+
+:root {
+  /* Colors */
+  --color-obsidian-void: #08090E;
+  --color-void: #000000;
+  --color-glass-panel: rgba(17, 19, 30, 0.75);
+  --color-hairline-border: rgba(255, 255, 255, 0.08);
+  --color-bone-white: #FFFFFF;
+  --color-ash-gray: #9A9AA6;
+  --color-silver-mist: #6B6B76;
+  --color-electric-violet: #8B5CF6;
+  --color-electric-iris: #8052ff;
+  --color-saffron-spark: #ffb829;
+  --color-sky-blue: #38BDF8;
+  --color-autopsy-pink: #F472B6;
+  --color-ingestion-cyan: #22D3EE;
+  --color-ready-green: #4ADE80;
+  --color-fallback-amber: #FBBF24;
+  --color-deep-verdant: #15846e;
+
+  /* Gradient */
+  --gradient-primary: linear-gradient(90deg, #8B5CF6, #38BDF8);
+
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --text-micro-label: 12px;
+  --text-badge: 11px;
+  --text-body-description: 13px;
+  --text-input: 14px;
+  --text-card-title: 14px;
+  --text-button-label: 16px;
+  --text-headline: 36px;
+
+  --leading-headline: 1.15;
+  --leading-body: 1.5;
+  --tracking-micro-label: 0.05em;
+
+  /* Border Radius */
+  --radius-panel: 16px;
+  --radius-card: 12px;
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-pill: 9999px;
+
+  /* Backdrop */
+  --blur-panel: 16px;
+
+  /* Layout */
+  --content-max-width: 1360px;
+}
+
+/* Browser autofill dark theme fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #0c0e17 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Dala typography and button utilities for Admin / Dashboard */
+.font-dala-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8B5CF6;
+  display: block;
+}
+
+.font-dala-heading {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.font-dala-body-muted {
+  font-size: 14px;
+  color: #9A9AA6;
+  line-height: 1.5;
+}
+
+.font-dala-nav {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.font-dala-heading-sm {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.btn-dala-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #8B5CF6, #6366F1);
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+.btn-dala-primary:hover {
+  background: linear-gradient(90deg, #9D74FF, #7477F5);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-dala-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.04);
+  color: #9A9AA6;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-dala-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+body {
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: #8052ff;
+  color: #ffffff;
+}
+
+/* Glass panel utility */
+.glass-panel {
+  background: rgba(17, 19, 30, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Micro-label specification */
+.micro-label {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+/* Monolithic Display Headline */
+.font-display-hero {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  font-size: clamp(42px, 5.5vw, 84px);
+}
+
+/* Primary Electric Pill Button */
+.btn-electric-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8052ff;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 14px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 25px rgba(128, 82, 255, 0.4);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-electric-pill:hover:not(:disabled) {
+  background-color: #6e3df3;
+  box-shadow: 0 0 35px rgba(128, 82, 255, 0.65);
+  transform: translateY(-1px);
+}
+
+.btn-electric-pill:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary Gradient CTA button */
+.btn-primary-gradient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(90deg, #8B5CF6, #38BDF8);
+  color: #FFFFFF;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 24px;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 20px -2px rgba(139, 92, 246, 0.35);
+}
+
+.btn-primary-gradient:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.btn-primary-gradient:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary-gradient:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Range Slider Custom Styling */
+input[type="range"].quizgenius-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"].quizgenius-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid #8B5CF6;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+input[type="range"].quizgenius-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"].quizgenius-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid #8B5CF6;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8052ff;
+}
+
+/* Smooth motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
